@@ -11,6 +11,7 @@
 //Vishnu Vardhini Allam    2301AI35
 //Varada Chirag Patel 2301MC38
 
+//MATRIX: mulitplication, inverse, adjoint, print matrix, determinant
 int main(){
   /*      :)     */
 }
