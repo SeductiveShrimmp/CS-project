@@ -12,6 +12,8 @@
 //Varada Chirag Patel 2301MC38
 
 //MATRIX: mulitplication, inverse, adjoint, print matrix, determinant
+
+#include <stdio.h>
 void matrixPrint(int* ar, int r, int c)
 {
     for(int x=0; x<r; x++)
@@ -49,7 +51,7 @@ void matrixMulti()
     int m1[a][b];
   
     printf("Enter matrix A: \n");
-    input(*m1,a,b);
+    matrixInput(*m1,a,b);
     
     printf("Order of B (r x c): \n");
     int c,d;
@@ -58,7 +60,7 @@ void matrixMulti()
     int m2[c][d];
   
     printf("Enter matrix B: \n");
-    input(*m2,c,d);
+    matrixInput(*m2,c,d);
     
     if(c!=d)
     {
@@ -69,10 +71,10 @@ void matrixMulti()
     int m3[a][d];
     
     printf("Input matrix A: \n");
-    print(*m1,a,b);
+    matrixPrint(*m1,a,b);
     
     printf("Input matrix B: \n");
-    print(*m2,c,d);
+    matrixPrint(*m2,c,d);
     
     printf("Ans = \n");
     for(int x=0; x<a; x++)
@@ -87,18 +89,34 @@ void matrixMulti()
         }
     }
     
-    print(*m3,a,d);
+    matrixPrint(*m3,a,d);
 }
 
-int matrixDet(int* ar, int r, int c){
-    printf("Order of A (r x c): \n");
-    int a,b;
-  
-    scanf("%d%d",&a,&b);
-    int m1[a][b];
-  
-    printf("Enter matrix A: \n");
-    input(*m1,a,b);
+int matrixDet33()
+{
+    int m1[3][3]; 
+    printf("Enter 3x3 matrix A: \n");
+    matrixInput(*m1,3,3);
+
+    int det = m1[0][0]*((m1[1][1]*m1[2][2]) - (m1[1][2]*m1[2][1]))
+            - m1[0][1]*((m1[1][0]*m1[2][2]) - (m1[1][2]*m1[2][0]))
+            + m1[1][1]*((m1[1][0]*m1[2][1]) - (m1[1][1]*m1[2][0]))
+    ;
+
+    printf("Matrix A: \n");
+    matrixPrint(*m1,3,3);
+    return det;
+}
+
+int matrixDet22()
+{
+    int m1[2][2];  
+    printf("Enter 2x2 matrix A: \n");
+    matrixInput(*m1,2,2);
+    
+    printf("Matrix A: \n");
+    matrixPrint(*m1,2,2);
+    return ((m1[0][0]*m1[1][1])-(m1[1][0]*m1[0][1]));
 }
 
 int main(){
