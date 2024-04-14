@@ -123,5 +123,15 @@ int main() {
             gameEnd = 1;
         } else if (isBoardFull()) {
             displayBoard();
-            printf("It's a draw!\
+            printf("It's a draw!\n");
+            gameEnd = 1;
+        }
+
+        // Switch player
+        turn = (turn == 1) ? 2 : 1;
+        token = (token == 'X') ? 'O' : 'X';
+    }
+
+    return 0;
+}
 
