@@ -903,27 +903,30 @@ void printfield(void);
 void playagain(void);
 void printfinal(void);
 void revealAdjacentBlanks(int, int);
-
+void minesweeper(void);
 
 int level, M, N, no_of_mines, mines, match=0, x, y;
 int initial[30][30], answer[30][30], current[30][30];
 char again;
 
-
-
-
-
-int minesweeper(){
-    printf("Welcome to Minesweeper.\n");
-    difficulty();
+//prints information about difficulty levels.
+void minesweeper()
+{
+    printf("\n\tWELCOME  TO  MINESWEEPER.\n");
+    printf("Difficulty level 1 has 9x9 grid with 10 mines.\nDifficulty level 2 has 14x14 grid with 25 mines.\nDifficulty level 3 has 16x16 grid with 40 mines.\n");
+    printf("Choose difficulty 4 for custom size and mines.\n\n");
+    difficulty(); //choosing difficulty
 }
 
 
-void difficulty(void){
-    printf("Select difficulty level between 1&3 and 4 for custom: ");
+//Function to choose difficulty level. 
+void difficulty(void)
+{
+    printf("Select difficulty level between 1-3 and 4 for custom: ");
     scanf("%d",&level);
 
-    if((level != 1) && (level != 2) && (level != 3) && (level != 4)){
+    if((level != 1) && (level != 2) && (level != 3) && (level != 4))
+    {
         while(1){
             printf("Please enter either 1, 2, 3 or 4\n");
             scanf("%d",&level);
@@ -931,7 +934,8 @@ void difficulty(void){
         }
     }
 
-    if(level==1){
+    if(level==1)
+    {
         M=9;
         N=9;
         no_of_mines=10;
@@ -940,25 +944,28 @@ void difficulty(void){
         guess();
     }
 
-    if(level==2){
+    if(level==2)
+    {
         M=14;
         N=14;
-        no_of_mines=30;
+        no_of_mines=25;
 
         generator();
         guess();
     }
 
-    if(level==3){
+    if(level==3)
+    {
         M=16;
         N=16;
-        no_of_mines=50;
+        no_of_mines=40;
 
         generator();
         guess();
     }
 
-    if(level==4){
+    if(level==4)
+    {
         printf("Please enter the size of the dimensions and number of mines you want\n");
 
         printf("First value:");
@@ -969,7 +976,7 @@ void difficulty(void){
 
         printf("Number of mines:");
         scanf("%d", &no_of_mines);
-
+        //generate minefield and start guessing game
         generator();
         guess();
 
@@ -977,33 +984,48 @@ void difficulty(void){
 }
 
 
-
-void generator(void){
-
+//Function that generates the minesweeper grid with chosen difficulty level.
+void generator(void)
+{
+    //seed random numbers
     srand(time(NULL));
-    for(int i=0;i<M;i++){
-        for(int j=0;j<N;j++){
+    //initializes grid with '-'.
+    for(int i=0;i<M;i++)
+    {
+        for(int j=0;j<N;j++)
+        {
             initial[i][j] = current[i][j]= answer[i][j] = '-';
         }
     }
-
-    for(mines=0;mines<no_of_mines;mines++){
+    //places mines on randomly genetated positions
+    for(mines=0;mines<no_of_mines;mines++)
+    {
         int i=rand()%M;
         int j=rand()%N;
-        if(answer[i][j]!='*'){
+        if(answer[i][j]!='*')
+        {
             current[i][j]=answer[i][j]='*';
         }
+        else mines--; //retry placing the mine if selected is already occupied
     }
 
-    for(int i=0;i<M;i++){
-        for(int j=0;j<N;j++){
-            if(answer[i][j]!='*'){
+    //calculates and assign numbers around mines
+    for(int i=0;i<M;i++)
+    {
+        for(int j=0;j<N;j++)
+        {
+            if(answer[i][j]!='*')
+            {
                 answer[i][j]=0;
             }
-            for(int dx=-1; dx<=1; dx++){
-                for(int dy=-1; dy<=1; dy++){
+            for(int dx=-1; dx<=1; dx++)
+            {
+                for(int dy=-1; dy<=1; dy++)
+                {
                     if(dx==0 && dy==0) continue;
-                    if(i+dx>=0 && i+dx<M && j+dy>=0 && j+dy<N && answer[i+dx][j+dy]=='*'){
+                    if(i+dx>=0 && i+dx<M && j+dy>=0 && j+dy<N && answer[i+dx][j+dy]=='*' && answer[i][j] != '*')
+                    {
+                        //counts the number of mines around each cell
                         answer[i][j]++;
                     }
                 }
@@ -1014,33 +1036,44 @@ void generator(void){
 }
 
 
-void printfield(void){
-    for(int i=0;i<M;i++){
-        if(i==0){
+//function that prints the initial and updated minesweeper grid 
+void printfield(void)
+{
+    //print column numbers
+    for(int i=0;i<M;i++)
+    {
+        if(i==0)
+        {
             printf("\t");
         }
-        printf("|%d|\t", i);
+        printf("|%d|  ", i);
     }
     printf("\n\n");
 
+    //print row numbers and grid contents
     for(int i=0;i<M;i++ )                       
     {   
         printf("|%d|\t", i);
         for(int j=0;j<N;j++)
         {
+            // Display appropriate character for each cell
             if(initial[i][j]=='-')
             {
-                printf("|%c|\t",initial[i][j]);
+                printf("|%c|  ",initial[i][j]);
 
             }
             else if(answer[i][j] == 0 )
             {
-                initial[i][j] = 'B'   ;                
-                printf("|%c|\t",initial[i][j]);
+                initial[i][j] = 0   ;                
+                printf("|%d|  ",initial[i][j]);
+            }
+            else if(answer[x][y] == '*' || initial[x][y] == '*')
+            {
+                continue;
             }
             else
             {
-                printf("|%d|\t",initial[i][j]);
+                printf("|%d|  ",initial[i][j]);
 
             }
         }
@@ -1050,38 +1083,57 @@ void printfield(void){
 
 
 
-void guess(void){
-    printfield();    
-    for(int i=0;i<M;i++){
-        for(int j=0;j<N;j++){
+//function that takes input of user guess of row and column number, and also checks if the user win or lose by revealing the cell choosen by user in each step. 
+void guess(void)
+{
+    printfield();    //prints the current minefield grid
+    for(int i=0;i<M;i++)
+    {
+        for(int j=0;j<N;j++)
+        {
             if(answer[i][j]==initial[i][j]) match++;    
         }
     }
 
-    if(match==((M*N)-no_of_mines)){
+    //check if the player has won
+    if(match==((M*N)-no_of_mines))
+    {
         printf("\n\nYOU WIN!!!\n");
         playagain();
     }
 
+    // Prompt the user for a guess (row and column)
     printf("enter x and y values: ");
     scanf("%d %d", &x, &y);
-    if( (x >= M) || (x < 0) || (y < 0) || (y >= N) ){
+
+    // Validate the guess coordinates
+    if( (x >= M) || (x < 0) || (y < 0) || (y >= N) )
+    {
         printf("Please enter a value inside the grid\n");
         guess();
     }
-    if( answer[x][y] == '*' ){
+
+    // Check if the guessed cell contains a mine
+    if( answer[x][y] == '*' )
+    {
         printfinal();
         printf("You hit a mine at %d,%d\nYOU LOSE!!!!\n", x, y);
         playagain();
     }
-    if( initial[x][y] != '-' ){
+    
+    // Check if the cell has already been guessed
+    if( initial[x][y] != '-' )
+    {
         printf("Please enter a value that has not already been entered\n");
         guess();
     }
+
+    // Reveal the cell and check for adjacent cells if '0'
     else                                               
     {
       initial[x][y]=answer[x][y];
-      if(answer[x][y]==0){
+      if(answer[x][y]==0)
+      {
         revealAdjacentBlanks(x, y);
       }
       match=0;
@@ -1089,17 +1141,25 @@ void guess(void){
     }
 }
 
-void revealAdjacentBlanks(int x, int y) {
+
+//reveals adjacent 8 cells (except when an adjacent cell is a mine) when user selected cell contains '0'. It also recursively checks if the adjacent cell is '0' to reveal further adjacent cells of the later cell.
+void revealAdjacentBlanks(int x, int y)
+{
+    // Reveal the current cell
     if(answer[x][y] != '*')
     initial[x][y] = answer[x][y];
-
-    if (answer[x][y] == 0) {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
+    // Recursively reveal adjacent blanks
+    if (answer[x][y] == 0)
+    {
+        for (int dx = -1; dx <= 1; dx++) 
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
                 if (dx == 0 && dy == 0) continue;
                 int newX = x + dx;
                 int newY = y + dy;
-                if (newX >= 0 && newX < M && newY >= 0 && newY < N && initial[newX][newY] == '-') {
+                if (newX >= 0 && newX < M && newY >= 0 && newY < N && initial[newX][newY] == '-' && answer[newX][newY] != '*')
+                {
                     revealAdjacentBlanks(newX, newY);
                 }
             }
@@ -1107,16 +1167,22 @@ void revealAdjacentBlanks(int x, int y) {
     }
 }
 
-void printfinal(){
-    for(int i=0;i<M;i++){
-        if(i==0){
+
+//prints minesweeper grid only containing mines. This function is called when user lose to show the positions of mines.
+void printfinal()
+{
+    for(int i=0;i<M;i++)
+    {
+        if(i==0)
+        {
             printf("\t");
         }
         printf("|%d|\t", i);
     }
     printf("\n\n");
 
-    for(int i=0;i<M;i++){   
+    for(int i=0;i<M;i++)
+    {   
         printf("|%d|\t", i);
         for(int j=0;j<N;j++)
         {
@@ -1127,30 +1193,40 @@ void printfinal(){
 }
 
 
-void playagain(void){
+//takes input from user whether to play the game again after a win or lose.
+void playagain(void)
+{
     printf("Would you like to play again(Y/N)?:");
-    scanf("%c", &again);
-    if(again!='Y' && again!='y' && again!='N' && again!='n'){ 
-        while(1){
+    scanf(" %c", &again);
+    //validate user input.
+    if(again!='Y' && again!='y' && again!='N' && again!='n')
+    { 
+        while(1)
+        {
             printf("please enter y/n.\n");
             printf("do you want to enter more values?(y/n): ");
             scanf(" %c",&again);
             if(again=='Y'  || again=='y' || again=='N' || again=='n') break;
         }
     }
-    if(again=='Y' || again=='y'){
+
+    if(again=='Y' || again=='y')
+    {
         difficulty();
     }
-    else if(again=='N' || again=='n'){
-        printf("\nGAME OVER\n");
-        return;
+    
+    else if(again=='N' || again=='n')
+    {
+         printf("\nGAME OVER\n");
+         exit(1);
     }
-    else{
+    
+    else
+    {
         printf("Please enter either Y or N");
         playagain();
     }
 }
-
 
 
 
