@@ -4,20 +4,10 @@
 #include <time.h> 
 #include <unistd.h>
 
-
-
-
-
-
-
-
-
-
-
-
-
+//SNAKE AND LADDER GAME
 int pos1=1;
 int pos2=1;
+//FUNCTION TO GENERATE RANDOM NUMBER ON DICE, BETWEEN 1-6
 int randomNumber()
 {
 	int rem;
@@ -26,9 +16,10 @@ int randomNumber()
 	return rem;
 }
 
+//FUNCTION TO MAKE CHANGES ON THE BOARD AND DISPLAY THE BOARD
 void _board(int cp, int player)
 {	
-    //W
+    	//WIN
 	if(cp==100)
 	{
 		printf("*****Congratulations*****\n\n\n%s wins\n",(player==1)?"PLAYER 1":"PLAYER 2");
@@ -36,67 +27,78 @@ void _board(int cp, int player)
 	}
 	
 	//SNAKES
-	if(cp==63){
+	if(cp==63)
+	{
 	    printf("Oops!! That was a nasty bite ");
 	    printf("\nSNAKE FROM 63 TO 18\n");
 	    cp=18;
 	}
-	else if(cp==32){
+	else if(cp==32)
+	{
 	    printf("Oops!! That was a nasty bite ");
 	    printf("\nSNAKE FROM 32 TO 10\n");
 	    cp=10;
 	}
-	else if(cp==48){
+	else if(cp==48)
+	{
 	    printf("Oops!! That was a nasty bite ");
 	    printf("\nSNAKE FROM 48 TO 26\n");
 	    cp=26;
 	}
-	else if(cp==88){
+	else if(cp==88)
+	{
 	    printf("Oops!! That was a nasty bite ");
 	    printf("\nSNAKE FROM 88 TO 24\n");
 	    cp=24;
 	}
-	else if(cp==99){
+	else if(cp==99)
+	{
 	    printf("DAMN :_)");
 	    printf("\nSNAKE FROM 99 TO 1\n");
 	    cp=1;
 	}
 	
 	//LADDERS
-	else if(cp==4){
+	else if(cp==4)
+	{
 	    printf("Weee!! Upp we gooo ");
 	    printf("\nLADDER AT 4 TO 18\n");
 	    cp=18;
 	}
-	else if(cp==60){
+	else if(cp==60)
+	{
 	    printf("Weee!! Upp we gooo ");
 	    printf("\nLADDER AT 60 TO 83\n");
 	    cp=83;
 	}
-	else if(cp==70){
+	else if(cp==70)
+	{
 	    printf("Weee!! Upp we gooo ");
 	    printf("\nLADDER AT 70 TO 93\n");
 	    cp=93;
 	}
-	else if(cp==28){
+	else if(cp==28)
+	{
 	    printf("Weee!! Upp we gooo");
 	    printf("\nLADDER AT 28 TO 76\n");
 	    cp=76;
 	}
-	else if(cp==50){
+	else if(cp==50)
+	{
 	    printf("Weee!! Upp we gooo ");
 	    printf("\nLADDER AT 50 TO 67\n");
 	    cp=67;
 	}
 
-    //UPDATING POSITIONS
-    if(player==1){
-        pos1=cp;   
-    }
-    else{
-        pos2=cp;
-    }
-    
+	//UPDATING POSITIONS
+	if(player==1){
+	pos1=cp;   
+	}
+	else{
+	pos2=cp;
+	}
+
+	//DISPLAY BOARD
 	for(int i=0;i<10;i++)
 	{
 		for(int j=1; j<=10; j++)
@@ -111,15 +113,13 @@ void _board(int cp, int player)
 		      {
 		          printf("*P2*\t");
 		      }
-		      else{
+		      else
+		      {
 		        printf("%d\t",curr);
 		      }
 		}
 		printf("\n\n");
 	}
-
-	
-
 	printf("--------------------------------------------------------------------------\n");
 }
 
@@ -130,7 +130,7 @@ void snl()
 	
 	while(true)
 	{
-	    printf("		** SNAKE AND LADDER GAME** \n	    	CODED BY GROUP 33\n");
+	        printf("		** SNAKE AND LADDER GAME** \n	    	   BY GROUP 33\n");
 		printf("Snakes:- 63 to 18,\t 32 to 10,\t 48 to 26,\t 88 to 24,\t 99 to 1.\nLadder:- 4 to 14,\t 60 to 83,\t 70 to 93,\t 28 to 76.\n");
 		printf("Choose your option\n");
 		printf("1. Player 1 plays\n");
@@ -138,10 +138,10 @@ void snl()
 		printf("3. Exit\n");
 		scanf("%s",&ch);
 	
-	    int fwd=0;
+	        int fwd=0;
 		switch(ch)
 		{
-		    
+		   	//ACCOUNTING FOR TURNS IN EACH CASE 
 			case '1':
     			dice=randomNumber();
     			system("cls");
@@ -156,13 +156,15 @@ void snl()
 				    fwd+=dice;
 				}
 				
-				if(pos1+ fwd>=101){
+				if(pos1+ fwd>=101)
+				{
 				    fwd=0;
 				    printf("Overshoot!! Turn Ended...\n\n");
 				    _board(pos1,1);
 				    continue;
 				}
-				else{
+				else
+				{
 					_board(pos1+fwd,1);
 				}
 				printf("Player 2 position is %d\n\n",pos2);
@@ -183,13 +185,15 @@ void snl()
 				    fwd+=dice;
 				}
 				
-				if(pos2+ fwd>=101){
+				if(pos2+ fwd>=101)
+				{
 				    fwd=0;
 				    printf("Overshoot!! Turn Ended...\n\n");
 				    _board(pos1,1);
 				    continue;
 				}
-				else{
+				else
+				{
 					_board(pos2+fwd,2);
 				}
 				printf("Player 1 position is %d\n\n",pos1);
@@ -201,42 +205,13 @@ void snl()
 			break;
 			
 			default:
-			    printf("Incorrect choice.Try Again\n");
-			 
+			    printf("Incorrect choice.Try Again\n");			 
 			break;				
 		}		
 	}	
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//SUDOKU SOLVER
 void printmesh(int mesh[9][9])
 // function to print the given mesh problem
 {
@@ -418,44 +393,7 @@ void sudoku()
     return;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//2048 GAME
 #define MAXRANDOMVALUE 3 
 #define MAXPREV 500 
 int arr[4][4] = { 0 }, c[4], temp = 0, len = 0, score = 0, 
@@ -863,39 +801,7 @@ void two048()
     return; 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-
+//MINESWEEPER
 void generator(void);
 void difficulty(void);
 void guess(void);
@@ -1081,8 +987,6 @@ void printfield(void)
     }
 }
 
-
-
 //function that takes input of user guess of row and column number, and also checks if the user win or lose by revealing the cell choosen by user in each step. 
 void guess(void)
 {
@@ -1228,55 +1132,9 @@ void playagain(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <stdio.h>
-
+//TIC-TAC-TOE GAME
 char Board[3][3];
 // 3x3 board
-
 // Function to initialize the board
 void initialize() 
 {
@@ -1403,58 +1261,14 @@ void TTT()
         printf("\nPlayer %c wins!\n", winner);
         // printing the winner of the game if any
     }
-
-    return;
+   return;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <stdio.h>
-
+//CONNECT 4 GAME
 #define ROWS 6
 #define COLS 7
 
 char board[ROWS][COLS];
-
 // Initialize the game board
 void initializeBoard() {
     for (int i = 0; i < ROWS; i++) {
@@ -1585,49 +1399,7 @@ void c4() {
     return;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//FINAL MAIN FUNCTION
 int main(){
 
     printf("**************************Welcome to Project of CS LAB GROUP-33**************************\n\n");
