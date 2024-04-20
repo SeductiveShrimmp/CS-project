@@ -11,7 +11,6 @@ int pos2=1;
 int randomNumber()
 {
 	int rem;
-	srand(time(NULL));
 	rem=rand()%6 + 1;
 	return rem;
 }
@@ -23,6 +22,8 @@ void _board(int cp, int player)
 	if(cp==100)
 	{
 		printf("*****Congratulations*****\n\n\n%s wins\n",(player==1)?"PLAYER 1":"PLAYER 2");
+        pos1=1;
+        pos2=1;
 		return;
 	}
 	
@@ -150,7 +151,7 @@ void snl()
 				
 				if(dice==6)
 				{
-				    printf("Dice = 6: You have earned a chance to play one more time.\n");
+				    printf("You have earned a chance to play one more time.\n");
 				    dice=randomNumber();
 				    printf("\t\t\t\tDice = %d\n\n",dice);
 				    fwd+=dice;
@@ -201,6 +202,8 @@ void snl()
 			break;
 			
 			case '3':
+                pos1=1;
+                pos2=1;
 			    return;		    
 			break;
 			
@@ -1402,11 +1405,10 @@ void c4() {
 //FINAL MAIN FUNCTION
 int main(){
 
-    printf("**************************Welcome to Project of CS LAB GROUP-33**************************\n\n");
-   
     int ch;
     while(true){
         system("cls");
+        printf("**************************Welcome to Project of CS LAB GROUP-33**************************\n\n");
         printf("WHICH GAME DO YOU WANT TO PLAY? \n");
         printf("1. Snake and Ladder \n");
         printf("2. Minesweeper\n");    
